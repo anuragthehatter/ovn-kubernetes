@@ -52,7 +52,7 @@ func ensureTestMachine() (*machine, error) {
 if kcli show vm %[1]s; then
   exit 0
 fi
-kcli create vm -i fedora41 %[1]s --wait -P cmds=['dnf install -y docker','systemctl enable --now docker']
+kcli create vm -i fedora42 %[1]s --wait -P nets=['myclusterbm'] -P cmds=['dnf install -y docker','systemctl enable --now docker']
 `, testMachineName))
 	output, err := cmd.CombinedOutput()
 	if err != nil {
