@@ -36,6 +36,16 @@ func handleFlags() {
 	flag.Parse()
 }
 
+// The infra provider need to be initialized out of BeforeSuite, since it
+// include a call to AfterSuite that should be called out of it.
+func initInfraProvider() {
+	config, err := framework.LoadConfig()
+	framework.ExpectNoError(err)
+	err = infraprovider.Set(config)
+	framework.ExpectNoError(err, "must configure infrastructure provider")
+
+}
+
 var _ = ginkgo.BeforeSuite(func() {
 	// Make sure the framework's kubeconfig is set.
 	gomega.Expect(framework.TestContext.KubeConfig).NotTo(gomega.Equal(""), fmt.Sprintf("%s env var not set", clientcmd.RecommendedConfigPathEnvVar))
