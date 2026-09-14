@@ -95,6 +95,13 @@ func main() {
 		Qualifiers: []string{`!labels.exists(l, l == "Serial")`},
 	})
 
+	ovnTestsExtension.AddSuite(extension.Suite{
+		Name:             "ovn-kubernetes/conformance/disruptive",
+		Qualifiers:       []string{`labels.exists(l, l == "Disruptive")`},
+		Parallelism:      1,
+		ClusterStability: extension.ClusterStabilityDisruptive,
+	})
+
 	specs, err := ginkgo.BuildExtensionTestSpecsFromOpenShiftGinkgoSuite(extensiontests.AllTestsIncludingVendored())
 	if err != nil {
 		panic(err)
